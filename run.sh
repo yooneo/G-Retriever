@@ -2,12 +2,12 @@ for seed in 0 1 2 3
 do
 # 1) inference only
 # a) Question-Only
-python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name 7b_chat --max_txt_len 0 --seed $seed
-python inference.py --dataset webqsp --model_name inference_llm --llm_model_name 7b_chat --max_txt_len 0 --seed $seed
+python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name llama3-8b-4bit --max_txt_len 0 --seed $seed
+python inference.py --dataset webqsp --model_name inference_llm --llm_model_name llama3-8b-4bit --max_txt_len 0 --seed $seed
 # b) Textual Graph + Question
-python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name 7b_chat --seed $seed
-python inference.py --dataset scene_graphs --model_name inference_llm --llm_model_name 7b_chat --seed $seed
-python inference.py --dataset webqsp --model_name inference_llm --llm_model_name 7b_chat --seed $seed
+python inference.py --dataset expla_graphs --model_name inference_llm --llm_model_name llama3-8b-4bit --seed $seed
+python inference.py --dataset scene_graphs --model_name inference_llm --llm_model_name llama3-8b-4bit --seed $seed
+python inference.py --dataset webqsp --model_name inference_llm --llm_model_name llama3-8b-4bit --seed $seed
 
 # 2) frozen llm + prompt tuning
 # a) prompt tuning

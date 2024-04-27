@@ -35,6 +35,9 @@ def main(args):
     args.llm_model_path = llama_model_path[args.llm_model_name]
     model = load_model[args.model_name](graph=dataset.graph, graph_type=dataset.graph_type, args=args)
 
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cup")
+    model = model.to(device)
+
     # Step 4. Evaluating
     model.eval()
     eval_output = []

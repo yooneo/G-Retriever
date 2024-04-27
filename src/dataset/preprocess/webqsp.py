@@ -87,7 +87,8 @@ def step_two():
         # nodes
         nodes = pd.read_csv(f'{path_nodes}/{index}.csv')
         edges = pd.read_csv(f'{path_edges}/{index}.csv')
-        nodes.node_attr.fillna("", inplace=True)
+        # nodes.node_attr.fillna("", inplace=True)
+        nodes['node_attr'] = nodes['node_attr'].fillna("")
         x = text2embedding(model, tokenizer, device, nodes.node_attr.tolist())
 
         # edges
