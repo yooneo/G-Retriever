@@ -7,7 +7,7 @@ from src.dataset.utils.retrieval import retrieval_via_pcst
 
 
 model_name = 'sbert'
-path = 'dataset/scene_graphs'
+path = '/home/neo/PycharmProjects/G-Retriever/dataset/scene_graphs'
 path_nodes = f'{path}/nodes'
 path_edges = f'{path}/edges'
 path_graphs = f'{path}/graphs'
