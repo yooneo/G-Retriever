@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 
 
 model_name = 'sbert'
-path = 'dataset/scene_graphs'
+path = '/home/neo/PycharmProjects/G-Retriever/dataset/scene_graphs'
 path_nodes = f'{path}/nodes'
 path_edges = f'{path}/edges'
 path_graphs = f'{path}/graphs'
@@ -41,7 +41,7 @@ def textualize_graph(data):
 
 
 def step_one():
-    dataset = json.load(open('dataset/gqa/train_sceneGraphs.json'))
+    dataset = json.load(open('/home/neo/PycharmProjects/G-Retriever/dataset/gqa/train_sceneGraphs.json'))
 
     os.makedirs(path_nodes, exist_ok=True)
     os.makedirs(path_edges, exist_ok=True)
@@ -80,7 +80,6 @@ def step_two():
 def generate_split():
 
     # Load the data
-    path = "dataset/scene_graphs"
     questions = pd.read_csv(f"{path}/questions.csv")
 
     # Create a unique list of image IDs

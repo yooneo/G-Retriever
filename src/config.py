@@ -25,7 +25,7 @@ def parse_args_llama():
     parser.add_argument("--eval_batch_size", type=int, default=16)
 
     # LLM related
-    parser.add_argument("--llm_model_name", type=str, default='7b')
+    parser.add_argument("--llm_model_name", type=str, default='llama3-8b-4bit')
     parser.add_argument("--llm_model_path", type=str, default='')
     parser.add_argument("--llm_frozen", type=str, default='True')
     parser.add_argument("--llm_num_virtual_tokens", type=int, default=10)

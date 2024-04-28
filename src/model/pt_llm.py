@@ -31,8 +31,9 @@ class PromptTuningLLM(torch.nn.Module):
 
         print('Loading LLAMA')
         kwargs = {
-            "max_memory": {0: '80GiB', 1: '80GiB'},
-            "device_map": "auto",
+            # "max_memory": {0: '20GiB', 1: '80GiB'},
+            "max_memory": {0: '20GiB'},
+            "device_map": "cuda:0",
             "revision": "main",
         }
         self.tokenizer = AutoTokenizer.from_pretrained(args.llm_model_path, use_fast=False, revision=kwargs["revision"])

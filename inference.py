@@ -24,7 +24,7 @@ def main(args):
     seed_everything(seed=seed)
     print(args)
 
-    dataset = load_dataset[args.dataset]()
+    dataset = load_dataset(args.dataset)()
     idx_split = dataset.get_idx_split()
 
     # Step 2: Build Node Classification Dataset
@@ -34,8 +34,7 @@ def main(args):
     # Step 3: Build Model
     args.llm_model_path = llama_model_path[args.llm_model_name]
     model = load_model[args.model_name](graph=dataset.graph, graph_type=dataset.graph_type, args=args)
-
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cup")
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
 
     # Step 4. Evaluating
