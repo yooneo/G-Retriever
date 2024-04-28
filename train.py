@@ -27,7 +27,7 @@ def main(args):
     seed_everything(seed=args.seed)
     print(args)
 
-    dataset = load_dataset[args.dataset]()
+    dataset = load_dataset(args.dataset)()
     idx_split = dataset.get_idx_split()
 
     # Step 2: Build Node Classification Dataset
