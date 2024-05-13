@@ -15,7 +15,6 @@ from src.utils.collate import collate_fn
 from src.utils.seed import seed_everything
 from src.utils.lr_schedule import adjust_learning_rate
 
-
 def main(args):
 
     # Step 1: Set up wandb
@@ -63,7 +62,6 @@ def main(args):
         epoch_loss, accum_loss = 0., 0.
 
         for step, batch in enumerate(train_loader):
-
             optimizer.zero_grad()
             loss = model(batch)
             loss.backward()

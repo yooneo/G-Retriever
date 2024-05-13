@@ -14,18 +14,18 @@ def parse_args_llama():
     parser.add_argument("--patience", type=float, default=2)
 
     # Model Training
-    parser.add_argument("--batch_size", type=int, default=8)
-    parser.add_argument("--grad_steps", type=int, default=2)
+    parser.add_argument("--batch_size", type=int, default=1)
+    parser.add_argument("--grad_steps", type=int, default=1)
 
     # Learning Rate Scheduler
-    parser.add_argument("--num_epochs", type=int, default=10)
+    parser.add_argument("--num_epochs", type=int, default=5)
     parser.add_argument("--warmup_epochs", type=float, default=1)
 
     # Inference
-    parser.add_argument("--eval_batch_size", type=int, default=16)
+    parser.add_argument("--eval_batch_size", type=int, default=5)
 
     # LLM related
-    parser.add_argument("--llm_model_name", type=str, default='llama3-8b-4bit')
+    parser.add_argument("--llm_model_name", type=str, default='llama3-8b')
     parser.add_argument("--llm_model_path", type=str, default='')
     parser.add_argument("--llm_frozen", type=str, default='True')
     parser.add_argument("--llm_num_virtual_tokens", type=int, default=10)

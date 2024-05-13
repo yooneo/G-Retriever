@@ -1,9 +1,11 @@
 from src.model.llm import LLM
+from src.model.single_call_llm import SingleCallLLM
 from src.model.pt_llm import PromptTuningLLM
 from src.model.graph_llm import GraphLLM
 
 
 load_model = {
+    'single_inference_llm': SingleCallLLM,
     'llm': LLM,
     'inference_llm': LLM,
     'pt_llm': PromptTuningLLM,
@@ -17,7 +19,7 @@ llama_model_path = {
     # 'llama2-7b-chat': 'llama2/llama2-7b-chat-hf',
     # 'llama2-13b-chat': 'llama2/llama2-13b-chat-hf',
     'llama3-8b-4bit': '/home/neo/LLMs/llama3/llama3-8b-bnb-4bit',
-    'llama3-8b': '/home/neo/LLMs/Meta-Llama-3-8B',
+    'llama3-8b': 'meta-llama/Meta-Llama-3-8B-Instruct',
     # 'llama3-8b': '/home/neo/Projects/LLMs/llama3/Meta-Llama-3-8B',
     'phi3-mini': '/home/neo/LLMs/phi3-mini-4k',
 }

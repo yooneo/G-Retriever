@@ -96,7 +96,9 @@ def load_sbert():
     model = Sentence_Transformer(pretrained_repo)
     tokenizer = AutoTokenizer.from_pretrained(pretrained_repo)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    # model.to(device)
+    device = torch.device("cuda")
     model.to(device)
 
     model.eval()
@@ -105,6 +107,11 @@ def load_sbert():
 
 def sber_text2embedding(model, tokenizer, device, text):
     try:
+        # check if the input value is a string and print if it's not
+        for i, txt in enumerate(text):
+            if not isinstance(txt, str):
+                print(f"Element at index {i} is not a string: {txt}")
+
         encoding = tokenizer(text, padding=True, truncation=True, return_tensors='pt')
         dataset = Dataset(input_ids=encoding.input_ids, attention_mask=encoding.attention_mask)
 
@@ -130,7 +137,8 @@ def sber_text2embedding(model, tokenizer, device, text):
         # Concatenate the embeddings from all batches
         all_embeddings = torch.cat(all_embeddings, dim=0).cpu()
 
-    except:
+    except Exception as e:
+        print(f"Exception: {e}")
         return torch.zeros((0, 1024))
 
     return all_embeddings

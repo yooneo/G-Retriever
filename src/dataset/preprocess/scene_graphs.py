@@ -8,7 +8,6 @@ from torch_geometric.data.data import Data
 from src.utils.lm_modeling import load_model, load_text2embedding
 from sklearn.model_selection import train_test_split
 
-
 model_name = 'sbert'
 path = '/home/neo/PycharmProjects/G-Retriever/dataset/scene_graphs'
 path_nodes = f'{path}/nodes'
@@ -78,7 +77,6 @@ def step_two():
 
 
 def generate_split():
-
     # Load the data
     questions = pd.read_csv(f"{path}/questions.csv")
 
@@ -90,7 +88,8 @@ def generate_split():
     shuffled_image_ids = np.random.permutation(unique_image_ids)
 
     # Split the image IDs into train, validation, and test sets
-    train_ids, temp_ids = train_test_split(shuffled_image_ids, test_size=0.4, random_state=42)  # 60% train, 40% temporary
+    train_ids, temp_ids = train_test_split(shuffled_image_ids, test_size=0.4,
+                                           random_state=42)  # 60% train, 40% temporary
     val_ids, test_ids = train_test_split(temp_ids, test_size=0.5, random_state=42)  # Split the 40% into two 20% splits
 
     # Create a mapping from image ID to set label

@@ -10,6 +10,7 @@ from peft import (
     get_peft_model,
     prepare_model_for_kbit_training,
 )
+import flash_attn
 
 BOS = '<s>[INST]'
 EOS_USER = '[/INST]'
@@ -32,9 +33,10 @@ class GraphLLM(torch.nn.Module):
         print('Loading LLAMA')
         kwargs = {
             # "max_memory": {0: '20GiB', 1: '80GiB'},
-            "max_memory": {0: '20GiB'},
+            "max_memory": {0: '15GiB'},
             "device_map": "cuda:0",
             "revision": "main",
+            "attn_implementation": "flash_attention_2",
         }
 
         self.tokenizer = AutoTokenizer.from_pretrained(args.llm_model_path, use_fast=False, revision=kwargs["revision"])
@@ -47,6 +49,16 @@ class GraphLLM(torch.nn.Module):
             low_cpu_mem_usage=True,
             **kwargs
         )
+
+        # model, tokenizer = FastLanguageModel.from_pretrained(
+        #     model_name="unsloth/llama-3-8b-bnb-4bit",
+        #     max_seq_length=2048,
+        #     dtype=None,
+        #     load_in_4bit=False,
+        #     device_map="cuda:0",
+        # )
+
+
 
         if args.llm_frozen == 'True':
             print("Freezing LLAMA!")
@@ -71,6 +83,22 @@ class GraphLLM(torch.nn.Module):
                 task_type="CAUSAL_LM",
             )
             model = get_peft_model(model, config)
+            # Do model patching and add fast LoRA weights
+            # model = FastLanguageModel.get_peft_model(
+            #     model,
+            #     r=16,
+            #     target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
+            #                     "gate_proj", "up_proj", "down_proj", ],
+            #     lora_alpha=16,
+            #     lora_dropout=0,  # Supports any, but = 0 is optimized
+            #     bias="none",  # Supports any, but = "none" is optimized
+            #     # [NEW] "unsloth" uses 30% less VRAM, fits 2x larger batch sizes!
+            #     use_gradient_checkpointing="unsloth",  # True or "unsloth" for very long context
+            #     random_state=3407,
+            #     max_seq_length=2048,
+            #     use_rslora=False,  # We support rank stabilized LoRA
+            #     loftq_config=None,  # And LoftQ
+            # )
 
         self.model = model
         print('Finish loading LLAMA!')
@@ -94,7 +122,9 @@ class GraphLLM(torch.nn.Module):
 
     @property
     def device(self):
-        return list(self.parameters())[0].device
+        return torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+        # return list(self.parameters())[0].device
 
     def maybe_autocast(self, dtype=torch.bfloat16):
         # if on cpu, don't use autocast
@@ -117,7 +147,6 @@ class GraphLLM(torch.nn.Module):
         return g_embeds
 
     def forward(self, samples):
-
         # encode description, questions and labels
         questions = self.tokenizer(samples["question"], add_special_tokens=False)
         descriptions = self.tokenizer(samples["desc"], add_special_tokens=False)

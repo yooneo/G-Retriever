@@ -32,7 +32,7 @@ class PromptTuningLLM(torch.nn.Module):
         print('Loading LLAMA')
         kwargs = {
             # "max_memory": {0: '20GiB', 1: '80GiB'},
-            "max_memory": {0: '20GiB'},
+            "max_memory": {0: '15GiB'},
             "device_map": "cuda:0",
             "revision": "main",
         }
@@ -72,6 +72,8 @@ class PromptTuningLLM(torch.nn.Module):
             )
             model = get_peft_model(model, config)
 
+        # Use for local RTX 4090
+        model.config.attn_implementation = "flash_attention_2"
         self.model = model
         print('Finish loading LLAMA!')
 
